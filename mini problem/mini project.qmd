@@ -1,0 +1,193 @@
+---
+title: "Effects of Eye-Protection Devices on Eye Strain During Prolonged Gaming"
+author: "Callum Barnsley"
+format: html
+editor: visual
+---
+
+# **Background**
+
+With the recent growth in computer use, the potential risks associated with prolonged screen exposure have also increased. These risks include eye strain, discomfort, and visual fatigue caused by screen light, particularly blue light (Sheppard & Wolffsohn, 2018). Eye strain, referred to as computer vision syndrome has been documented to occur among people who engage in activities with extended screen time use (Rosenfield, 2016). 
+
+In response to these concerns, gaming eyewear is a product currently marketed to mitigate these effects, typically using blue-light filters to reduce visual strain. Standard gaming glasses generally provide a fixed tint on the lenses. While these do reduce the exposure to blue light , they do not dynamically adjust the variations in screen brightness nor the chromatic intensity. In contrast, adaptive blue-light filtering devices dynamically adjust the filtering based on on-screen chroma and brightness. This has the potential to provide more protection during extended gaming sessions. 
+
+Despite the growing commercial adoption, understanding how adaptive devices compare to both standard gaming glasses and no protection, and whether any benefits persist over multiple gaming sessions, it is essential to do a statistical analysis to evaluate their effectiveness.
+
+This study aims to test three hypothesis:
+
+### **1. Device Effect Within Session**
+
+To examine whether the type of device influences eye strain score within a session:
+
+**H₀₁ (Null Hypothesis):**
+
+There is no effect of the device on the mean eye strain score. The mean eye strain does not change between the adaptive blue filter, standard gaming glasses and no protection within a session.
+
+H0:μadaptive = μstandard = μnone
+
+**H₁₁ (Alternative Hypothesis):**
+
+There is an effect of the device on the mean eye strain score, the adaptive blue filter results in a lower mean eye strain score than both standard gaming glasses and no protection within a session.
+
+H11:μadaptive \< μstandard and μadaptive \< μnone
+
+### **2. Persistence (Session Effect for Adaptive Device)**
+
+To examine whether the adaptive device maintains or improves its benefit across sessions:
+
+**H₀₂ (Null Hypothesis):\
+**Participants us the adaptive blue filter, the mean eye score in session 2 is greater than or equal to the mean eye strain score in session 1,
+
+H0:μadaptive,session2 ≥ μadaptive,session1
+
+**H₁₂ (Alternative Hypothesis):\
+**Participants using the adaptive blue filter, the mean eye strain score in session 2 is less than the mean eye strain in session 1.
+
+H1:μadaptive,session2 \< μadaptive,session1
+
+### **3. Baseline Benefit of Standard Gaming Glasses**
+
+To examine whether standard gaming glasses reduce eye strain compared to no protection:
+
+**H₀₃ (Null Hypothesis):**
+
+There is no difference in the mean for the eye strain score between standard gaming glasses and no protection.
+
+H0:μstandard = μnone
+
+**H₁₃ (Alternative Hypothesis):\
+** Mean eye strain score is lower for standard gaming glasses than for no protection.
+
+The mean for the eye strain score for standard gaming glasses is less than the mean eye strain score for no protection.
+
+H1:μstandard \< μnone
+
+## **Methods and Results**
+
+### Method
+
+This study uses a repeated-measure approach to examine the effects of gaming eyewear during extended gaming sessions. The devices that participants used are: adaptive blue-filter, standard gaming glasses and no protection, and sessions where 5 hour gaming sessions. Each device was used over two sessions where the eye strain of the corresponding participant was documented and reported for each session.
+
+Participants were randomly assigned to device condition at the first session, and this assignment was held constant for the second session. Because each participant was measured twice under the same treatment condition, observations were not independent. Therefore, gamer_id was included as a blocking factor using an Error term in the repeated-measures ANOVA to account for within-subject correlation.
+
+A post-hoc analysis had to be performed as the third hypothesis was unable to be supported nor unsupported. To do this a package called emmeans was used to do the post-hoc comparisons, using estimated marginal means with Bonferroni correction to control multiple comparisons.
+
+### Data Description
+
+The dataset that I was provided with, consisted of repeated measures of eye strain collected from the participant after they had completed one 5 hour gaming session using a randomly selected device and again after another 5 hour gaming session. Each participant were randomly assigned one of three devices:
+
+1.  Adaptive blue filter
+
+2.  Standard gaming glasses
+
+3.  No protection
+
+The dataset was structured in tidy format with one row per observation.
+
+Because each participant was measured twice under the same condition, observations were not independent. Therefore, analysis required a repeated-measure approach that accounts for within subject correlation.
+
+Because each participant was measured twice under the same treatment condition, observations were not independent. Therefore, analysis required a repeated-measures framework that accounts for within-subject correlation.
+
+## **Statistical Approach**
+
+All analyses were done using the base version of R, in R studio. A two-factor mixed repeated-measures ANOVA was done. Device was considered a between-subject factor and session as a within-subject factor. The ANOVA model includes an Error term to account for repeated measurements within participants: 
+
+eye_strain_score \~ device \* session + Error(gamer_id/session),
+
+I chose this approach over a standard two-way ANOVA because a simple ANOVA would violate the independence assumption. Including  gamer_id as a blocking (grouping) factor.
+
+The Statistical Significance was evaluated at 0.05.
+
+```{r}
+#install.packages("emmeans")
+library(emmeans)
+## Read dataset
+eye_data <- read.csv("eye_strain_data.csv")
+
+## Inspect structure
+head(eye_data)
+str(eye_data)
+
+## Convert categorical variables to factors
+eye_data$device <- factor(eye_data$device)
+eye_data$session <- factor(eye_data$session)
+eye_data$gamer_id <- factor(eye_data$gamer_id)
+
+## Fit repeated-measures ANOVA
+anova_model <- aov(
+  eye_strain_score ~ device * session + Error(gamer_id/session),
+  data = eye_data
+)
+
+## Display ANOVA summary
+summary(anova_model)
+
+## Create summary table
+summary_table <- aggregate(
+  eye_strain_score ~ device + session,
+  data = eye_data,
+  FUN = function(x) c(mean = mean(x), sd = sd(x))
+)
+
+## Expand results
+summary_table <- do.call(data.frame, summary_table)
+
+## Rename columns
+colnames(summary_table) <- c("Device", "Session", "Mean", "SD")
+
+## Print
+summary_table
+
+##post-hoc 
+model <- aov(eye_strain_score ~ device * session, data = eye_data)
+
+## Get estimated marginal means by device within each session (post-hoc)
+emm_device_session <- emmeans(model, pairwise ~ device | session, adjust = "bonferroni")
+
+## Extract only the emmeans (ignores contrasts for now)
+emmeans_table <- as.data.frame(emm_device_session$emmeans)
+
+## Round numeric columns for reporting
+emmeans_table$emmean <- round(emmeans_table$emmean, 1)
+emmeans_table$SE <- round(emmeans_table$SE, 2)
+emmeans_table$lower.CL <- round(emmeans_table$lower.CL, 2)
+emmeans_table$upper.CL <- round(emmeans_table$upper.CL, 2)
+
+# Rename columns to match your example
+colnames(emmeans_table) <- c("Device", "Session", "Mean", "SE", "df", "LowerCI", "UpperCI")
+
+# Keep only the columns you want for your table (Device, Session, Mean, SE)
+emmeans_table <- emmeans_table[, c("Device", "Session", "Mean", "SE")]
+
+# Print
+print(emmeans_table)
+```
+
+| Device                  | Session | Mean | SE   |
+|-------------------------|---------|------|------|
+| adaptive_blue_filter    | 2016    | 82.3 | 0.58 |
+| no_protection           | 2016    | 85   | 0.58 |
+| standard_gaming_glasses | 2016    | 85.9 | 0.59 |
+| adaptive_blue_filter    | 2017    | 87.9 | 0.58 |
+| no_protection           | 2017    | 92.1 | 0.58 |
+| standard_gaming_glasses | 2017    | 91.7 | 0.58 |
+
+## **Results**
+
+## **Results**
+
+A two-factor mixed repeated-measures ANOVA was conducted to examine the effects of eye protection device and session on eye strain. The analysis revealed a significant main effect of device, F(2, 585) = 26.36, p \< .001, indicating that mean eye strain differed across the three types of eye protection. There was also a significant main effect of session, F(1, 3) = 40.34, p = .0079, suggesting that eye strain increased from Session 1 to Session 2. The device × session interaction was not significant, F(2, 585) = 0.97, p = .382, indicating that the increase in eye strain over time was similar across all devices.
+
+Post-hoc comparisons using estimated marginal means (emmeans) with Bonferroni correction indicated that, in both sessions, the adaptive blue filter resulted in significantly lower eye strain than both no protection (2016: M = 82.3, SE = 0.58 vs 85.0, SE = 0.58; 2017: M = 87.9, SE = 0.58 vs 92.1, SE = 0.58) and standard gaming glasses (2016: M = 82.3, SE = 0.58 vs 85.9, SE = 0.59; 2017: M = 87.9, SE = 0.58 vs 91.7, SE = 0.58). There was no significant difference between standard gaming glasses and no protection in either session. Comparisons across sessions for each device indicated that eye strain increased significantly from 2016 to 2017 for all devices: adaptive blue filter (M difference = 5.57, SE = 0.58), standard gaming glasses (M difference = 5.82, SE = 0.59), and no protection (M difference = 7.05, SE = 0.58).
+
+Overall, the adaptive blue filter consistently produces results showing lower eye strain, however, all types of eye protection have similar increases in eye strain over time.
+
+## **Interpretation Relative to Hypotheses**
+
+-   **H₁₁:** Supported. Device type significantly influenced eye strain.\
+    \
+
+-   **H₁₂:** Not supported. No evidence of a persistence or carry-over advantage for the adaptive device.\
+    \
+
+-   **H₁₃:** Not supported. Standard gaming glasses did not reduce eye strain by a significant amount when compared to no protection.
