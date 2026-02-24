@@ -112,8 +112,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>In response to these concerns, gaming eyewear is a product currently marketed to mitigate these effects, typically using blue-light filters to reduce visual strain. Standard gaming glasses generally provide a fixed tint on the lenses. While these do reduce the exposure to blue light , they do not dynamically adjust the variations in screen brightness nor the chromatic intensity. In contrast, adaptive blue-light filtering devices dynamically adjust the filtering based on on-screen chroma and brightness. This has the potential to provide more protection during extended gaming sessions.&nbsp;</p>
 <p>Despite the growing commercial adoption, understanding how adaptive devices compare to both standard gaming glasses and no protection, and whether any benefits persist over multiple gaming sessions, it is essential to do a statistical analysis to evaluate their effectiveness.</p>
 <p>This study aims to test three hypothesis:</p>
-<section id="device-effect-within-session" class="level3">
-<h3 class="anchored" data-anchor-id="device-effect-within-session"><strong>1. Device Effect Within Session</strong></h3>
+<p><strong>1. Device Effect Within Session</strong></p>
 <p>To examine whether the type of device influences eye strain score within a session:</p>
 <p><strong>H₀₁ (Null Hypothesis):</strong></p>
 <p>There is no effect of the device on the mean eye strain score. The mean eye strain does not change between the adaptive blue filter, standard gaming glasses and no protection within a session.</p>
@@ -121,7 +120,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>H₁₁ (Alternative Hypothesis):</strong></p>
 <p>There is an effect of the device on the mean eye strain score, the adaptive blue filter results in a lower mean eye strain score than both standard gaming glasses and no protection within a session.</p>
 <p>H11:μadaptive &lt; μstandard and μadaptive &lt; μnone</p>
-</section>
 <section id="persistence-session-effect-for-adaptive-device" class="level3">
 <h3 class="anchored" data-anchor-id="persistence-session-effect-for-adaptive-device"><strong>2. Persistence (Session Effect for Adaptive Device)</strong></h3>
 <p>To examine whether the adaptive device maintains or improves its benefit across sessions:</p>
@@ -143,8 +141,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The mean for the eye strain score for standard gaming glasses is less than the mean eye strain score for no protection.</p>
 <p>H1:μstandard &lt; μnone</p>
 </section>
-<section id="methods-and-results" class="level2">
-<h2 class="anchored" data-anchor-id="methods-and-results"><strong>Methods and Results</strong></h2>
+</section>
+<section id="methods-and-results" class="level1">
+<h1><strong>Methods and Results</strong></h1>
 <section id="method" class="level3">
 <h3 class="anchored" data-anchor-id="method">Method</h3>
 <p>This study uses a repeated-measure approach to examine the effects of gaming eyewear during extended gaming sessions. The devices that participants used are: adaptive blue-filter, standard gaming glasses and no protection, and sessions where 5 hour gaming sessions. Each device was used over two sessions where the eye strain of the corresponding participant was documented and reported for each session.</p>
@@ -163,10 +162,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Because each participant was measured twice under the same condition, observations were not independent. Therefore, analysis required a repeated-measure approach that accounts for within subject correlation.</p>
 <p>Because each participant was measured twice under the same treatment condition, observations were not independent. Therefore, analysis required a repeated-measures framework that accounts for within-subject correlation.</p>
 </section>
-</section>
 <section id="statistical-approach" class="level2">
 <h2 class="anchored" data-anchor-id="statistical-approach"><strong>Statistical Approach</strong></h2>
-<p>All analyses were done using the base version of R, in R studio. A two-factor mixed repeated-measures ANOVA was done. Device was considered a between-subject factor and session as a within-subject factor. The ANOVA model includes an Error term to account for repeated measurements within participants:&nbsp;</p>
+<p>A two-factor mixed repeated-measures ANOVA was done. Device was considered a between-subject factor and session as a within-subject factor. The ANOVA model includes an Error term to account for repeated measurements within participants:&nbsp;</p>
 <p>eye_strain_score ~ device * session + Error(gamer_id/session),</p>
 <p>I chose this approach over a standard two-way ANOVA because a simple ANOVA would violate the independence assumption. Including&nbsp; gamer_id as a blocking (grouping) factor.</p>
 <p>The Statistical Significance was evaluated at 0.05.</p>
@@ -345,9 +343,6 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </section>
 <section id="results" class="level2">
 <h2 class="anchored" data-anchor-id="results"><strong>Results</strong></h2>
-</section>
-<section id="results-1" class="level2">
-<h2 class="anchored" data-anchor-id="results-1"><strong>Results</strong></h2>
 <p>A two-factor mixed repeated-measures ANOVA was conducted to examine the effects of eye protection device and session on eye strain. The analysis revealed a significant main effect of device, F(2, 585) = 26.36, p &lt; .001, indicating that mean eye strain differed across the three types of eye protection. There was also a significant main effect of session, F(1, 3) = 40.34, p = .0079, suggesting that eye strain increased from Session 1 to Session 2. The device × session interaction was not significant, F(2, 585) = 0.97, p = .382, indicating that the increase in eye strain over time was similar across all devices.</p>
 <p>Post-hoc comparisons using estimated marginal means (emmeans) with Bonferroni correction indicated that, in both sessions, the adaptive blue filter resulted in significantly lower eye strain than both no protection (2016: M = 82.3, SE = 0.58 vs 85.0, SE = 0.58; 2017: M = 87.9, SE = 0.58 vs 92.1, SE = 0.58) and standard gaming glasses (2016: M = 82.3, SE = 0.58 vs 85.9, SE = 0.59; 2017: M = 87.9, SE = 0.58 vs 91.7, SE = 0.58). There was no significant difference between standard gaming glasses and no protection in either session. Comparisons across sessions for each device indicated that eye strain increased significantly from 2016 to 2017 for all devices: adaptive blue filter (M difference = 5.57, SE = 0.58), standard gaming glasses (M difference = 5.82, SE = 0.59), and no protection (M difference = 7.05, SE = 0.58).</p>
 <p>Overall, the adaptive blue filter consistently produces results showing lower eye strain, however, all types of eye protection have similar increases in eye strain over time.</p>
@@ -363,6 +358,18 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </p></li>
 <li><p><strong>H₁₃:</strong> Not supported. Standard gaming glasses did not reduce eye strain by a significant amount when compared to no protection.</p></li>
 </ul>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>In conclusion, despite the adaptive blue light filtering device significantly lowers participants eye strain during extended gaming sessions compared to both standard gaming glasses and no protection. The eye strain increased over the duration of session 2 for all participants, and the adaptive blue light filtering device did not maintain a stronger protection over time. Overall, the adaptive blue light filtering device provides an immediate benefit to the user but there is no evidence to suggest that the effectiveness improves or persists over multiple sessions.</p>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<p>I used AI to help me understand the analysis and to help me clarify my understanding.</p>
+<p>Rosenfield, M., 2011. Computer vision syndrome: a review of ocular causes and potential treatments. Ophthalmic and Physiological Optics, 31(5), pp.502-515.</p>
+<p>(Accessed : 15/02/2026)</p>
+<p>Sheppard, A.L. and Wolffsohn, J.S., 2018. Digital eye strain: prevalence, measurement and amelioration. BMJ open ophthalmology, 3(1).</p>
+<p>(Accessed: 13/02/2026)</p>
 </section>
 </section>
 
