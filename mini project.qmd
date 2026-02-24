@@ -56,7 +56,7 @@ There is no difference in the mean for the eye strain score between standard gam
 
 H1:μstandard \< μnone
 
-# **Methods and Results**
+# [**Methods and Results**]{.underline}
 
 [**Method**]{.underline}
 
@@ -188,7 +188,7 @@ Overall, the adaptive blue filter consistently produces results showing lower ey
 
 In conclusion, the adaptive blue light filtering device significantly lowers participants' eye strain during extended gaming sessions compared to both standard gaming glasses and no protection. The eye strain increased over the duration of session 2 for all participants, and the adaptive blue light filtering device did not maintain a stronger protection over time. Overall, the adaptive blue light filtering device provides an immediate benefit to the user, but there is no evidence to suggest that the effectiveness improves or persists over multiple sessions.
 
-## References
+## [References]{.underline}
 
 I used AI to help me understand the analysis and to help me clarify my understanding.
 
