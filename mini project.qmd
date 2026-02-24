@@ -15,7 +15,7 @@ Despite the growing commercial adoption, understanding how adaptive devices comp
 
 This study aims to test three hypothesis:
 
-### **1. Device Effect Within Session**
+**1. Device Effect Within Session**
 
 To examine whether the type of device influences eye strain score within a session:
 
@@ -62,7 +62,7 @@ The mean for the eye strain score for standard gaming glasses is less than the m
 
 H1:μstandard \< μnone
 
-## **Methods and Results**
+# **Methods and Results**
 
 ### Method
 
@@ -90,7 +90,7 @@ Because each participant was measured twice under the same treatment condition, 
 
 ## **Statistical Approach**
 
-All analyses were done using the base version of R, in R studio. A two-factor mixed repeated-measures ANOVA was done. Device was considered a between-subject factor and session as a within-subject factor. The ANOVA model includes an Error term to account for repeated measurements within participants: 
+A two-factor mixed repeated-measures ANOVA was done. Device was considered a between-subject factor and session as a within-subject factor. The ANOVA model includes an Error term to account for repeated measurements within participants: 
 
 eye_strain_score \~ device \* session + Error(gamer_id/session),
 
@@ -189,3 +189,19 @@ Overall, the adaptive blue filter consistently produces results showing lower ey
     \
 
 -   **H₁₃:** Not supported. Standard gaming glasses did not reduce eye strain by a significant amount when compared to no protection.
+
+## Conclusion
+
+In conclusion, despite the adaptive blue light filtering device significantly lowers participants eye strain during extended gaming sessions compared to both standard gaming glasses and no protection. The eye strain increased over the duration of session 2 for all participants, and the adaptive blue light filtering device did not maintain a stronger protection over time. Overall, the adaptive blue light filtering device provides an immediate benefit to the user but there is no evidence to suggest that the effectiveness improves or persists over multiple sessions.
+
+## References
+
+I used AI to help me understand the analysis and to help me clarify my understanding.
+
+Rosenfield, M., 2011. Computer vision syndrome: a review of ocular causes and potential treatments. Ophthalmic and Physiological Optics, 31(5), pp.502-515.
+
+(Accessed : 15/02/2026)
+
+Sheppard, A.L. and Wolffsohn, J.S., 2018. Digital eye strain: prevalence, measurement and amelioration. BMJ open ophthalmology, 3(1).
+
+(Accessed: 13/02/2026)
